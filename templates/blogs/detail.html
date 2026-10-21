@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}{{ post.title }}{% endblock %}
+{% block meta_desc %}{{ post.excerpt }}{% endblock %}
+
+{% block content %}
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="breadcrumb">
+      <a href="{% url 'home' %}">Home</a><span class="sep">›</span>
+      <a href="{% url 'blogs' %}">Blogs</a><span class="sep">›</span>
+      <span class="current">{{ post.title|truncatewords:5 }}</span>
+    </div>
+    <h1 style="font-size:clamp(1.8rem,4vw,3.5rem);">{{ post.title }}</h1>
+    <div style="display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap;align-items:center;">
+      {% if post.category %}<span class="section-tag" style="margin:0;">{{ post.category.name }}</span>{% endif %}
+      {% if post.published_at %}<span style="color:var(--gray);font-size:0.85rem;">{{ post.published_at|date:"d F Y" }}</span>{% endif %}
+      {% if post.author %}<span style="color:var(--gray);font-size:0.85rem;">By {{ post.author.name }}</span>{% endif %}
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="blog-layout">
+    <article>
+      {% if post.cover_image %}
+      <img src="{{ post.cover_image.url }}" alt="{{ post.title }}" style="width:100%;border-radius:4px;margin-bottom:2rem;max-height:400px;object-fit:cover;"/>
+      {% endif %}
+      <div class="blog-post-content">
+        {{ post.content|safe }}
+      </div>
+      {% if post.get_tags_list %}
+      <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--dark3);">
+        <div class="tag-cloud">
+          {% for tag in post.get_tags_list %}<span class="tag">{{ tag }}</span>{% endfor %}
+        </div>
+      </div>
+      {% endif %}
+      <div style="margin-top:2rem;">
+        <a href="{% url 'blogs' %}" class="btn btn-outline">← Back to All Posts</a>
+      </div>
+    </article>
+
+    <aside class="blog-sidebar">
+      <div class="sidebar-widget">
+        <h4>Recent Posts</h4>
+        {% for rpost in recent_posts %}
+        <div class="recent-post">
+          <div class="recent-icon">{{ rpost.icon_emoji }}</div>
+          <div>
+            <h5><a href="{% url 'blog_detail' rpost.slug %}" style="color:inherit;">{{ rpost.title|truncatewords:8 }}</a></h5>
+            {% if rpost.category %}<span>{{ rpost.category.name }}</span>{% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="sidebar-widget" style="background:var(--red);border-color:var(--red);">
+        <h4 style="color:var(--white);">Join a Class</h4>
+        <p style="font-size:0.85rem;color:rgba(255,255,255,0.8);margin-bottom:1rem;">Ready to start your karate journey?</p>
+        <a href="{% url 'contact' %}" class="btn" style="background:var(--white);color:var(--red);width:100%;display:block;text-align:center;">Contact Us →</a>
+      </div>
+    </aside>
+  </div>
+</div>
+{% endblock %}

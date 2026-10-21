@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}Blog{% endblock %}
+
+{% block content %}
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="breadcrumb">
+      <a href="{% url 'home' %}">Home</a><span class="sep">›</span>
+      <span class="current">Blogs</span>
+    </div>
+    <h1>Karate <span>Blog</span></h1>
+    <p>Insights, stories, techniques, and news from the world of Shorin Ryu Karate and martial arts.</p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="blog-layout">
+    <div class="blog-grid">
+      {% for post in posts %}
+      <div class="blog-card reveal">
+        <div class="blog-thumb">
+          {% if post.cover_image %}
+            <img src="{{ post.cover_image.url }}" alt="{{ post.title }}" style="width:100%;height:100%;object-fit:cover;"/>
+          {% else %}
+            {{ post.icon_emoji }}
+          {% endif %}
+        </div>
+        <div class="blog-content">
+          <div class="blog-meta">
+            {% if post.category %}<span class="blog-cat">{{ post.category.name }}</span>{% endif %}
+            {% if post.published_at %}<span class="blog-date">{{ post.published_at|date:"d M Y" }}</span>{% endif %}
+          </div>
+          <h3><a href="{% url 'blog_detail' post.slug %}" style="color:inherit;">{{ post.title }}</a></h3>
+          <p>{{ post.excerpt|truncatewords:30 }}</p>
+          <div class="blog-footer-row">
+            <a class="read-more" href="{% url 'blog_detail' post.slug %}">Read More →</a>
+            {% if post.author %}<span class="author">By {{ post.author.name }}</span>{% endif %}
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <div style="background:var(--dark2);padding:3rem;border-radius:4px;text-align:center;">
+        <p style="color:var(--gray);font-size:1rem;">No blog posts published yet.</p>
+        <p style="color:var(--gray);font-size:0.85rem;margin-top:0.5rem;">Go to <strong style="color:var(--gold);">Admin → Blog Posts</strong> to add your first article.</p>
+      </div>
+      {% endfor %}
+    </div>
+
+    <aside class="blog-sidebar">
+      <div class="sidebar-widget">
+        <h4>Recent Posts</h4>
+        {% for post in recent_posts %}
+        <div class="recent-post">
+          <div class="recent-icon">{{ post.icon_emoji }}</div>
+          <div>
+            <h5><a href="{% url 'blog_detail' post.slug %}" style="color:inherit;">{{ post.title|truncatewords:8 }}</a></h5>
+            {% if post.category %}<span>{{ post.category.name }}</span>{% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="sidebar-widget">
+        <h4>Categories</h4>
+        {% for cat in categories %}
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid var(--dark3);">
+          <a href="{% url 'blogs' %}?category={{ cat.slug }}" style="font-size:0.85rem;color:{% if active_cat == cat %}var(--gold){% else %}var(--gray){% endif %};">{{ cat.name }}</a>
+          <span style="font-size:0.75rem;background:var(--dark3);padding:0.2rem 0.6rem;border-radius:3px;color:var(--gray);">{{ cat.blogpost_set.filter.is_published.count }}</span>
+        </div>
+        {% endfor %}
+      </div>
+      {% if all_tags %}
+      <div class="sidebar-widget">
+        <h4>Tags</h4>
+        <div class="tag-cloud">
+          {% for tag in all_tags %}<span class="tag">{{ tag }}</span>{% endfor %}
+        </div>
+      </div>
+      {% endif %}
+      <div class="sidebar-widget" style="background:var(--red);border-color:var(--red);">
+        <h4 style="color:var(--white);">Join a Class Today</h4>
+        <p style="font-size:0.85rem;color:rgba(255,255,255,0.8);margin-bottom:1rem;">Ready to begin your martial arts journey? Contact us to schedule a free trial class.</p>
+        <a href="{% url 'contact' %}" class="btn" style="background:var(--white);color:var(--red);width:100%;display:block;text-align:center;">Get Started →</a>
+      </div>
+    </aside>
+  </div>
+</div>
+{% endblock %}

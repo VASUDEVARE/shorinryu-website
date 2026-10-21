@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Instructors{% endblock %}
+{% block content %}
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="{% url 'home' %}">Home</a><span class="sep">›</span><span class="current">Instructors</span></div>
+    <h1>Our <span>Instructors</span></h1>
+    <p>Meet the dedicated martial arts professionals who guide every student on their journey.</p>
+  </div>
+</div>
+<div class="section">
+  <p class="section-tag">The Team</p>
+  <h2 class="section-title">Meet Our <span>Sensei</span></h2>
+  <div class="divider"></div>
+  <div class="instructors-grid">
+    {% for inst in instructors %}
+    <div class="instructor-card reveal">
+      <div class="instructor-img">
+        {% if inst.photo %}<img src="{{ inst.photo.url }}" alt="{{ inst.name }}" style="width:100%;height:100%;object-fit:cover;"/>{% else %}👤{% endif %}
+        <div class="instructor-rank">{% if inst.is_chief %}Chief Instructor{% else %}Instructor{% endif %}</div>
+      </div>
+      <div class="instructor-body">
+        <h3>{{ inst.name }}</h3>
+        <div class="instructor-title">{{ inst.title }}</div>
+        <div>{{ inst.bio|safe|truncatewords_html:30 }}</div>
+        {% if inst.skills.all %}
+        <div class="skill-bars">
+          {% for skill in inst.skills.all %}
+          <div class="skill-bar">
+            <div class="skill-bar-label"><span>{{ skill.skill_name }}</span><span>{{ skill.level_label }}</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" style="width:{{ skill.percentage }}%"></div></div>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    {% empty %}
+    <div style="grid-column:1/-1;text-align:center;padding:3rem;background:var(--dark2);border-radius:4px;">
+      <p style="color:var(--gray);">Add instructors from <strong style="color:var(--gold);">Admin → Instructors / Sensei</strong></p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Gallery{% endblock %}
+{% block content %}
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="{% url 'home' %}">Home</a><span class="sep">›</span><span class="current">Gallery</span></div>
+    <h1>Photo & Video <span>Gallery</span></h1>
+    <p>Moments from training sessions, tournaments, gradings, and special events.</p>
+  </div>
+</div>
+<div class="section">
+  <p class="section-tag">Photos</p>
+  <h2 class="section-title">Our <span>Moments</span></h2>
+  <div class="divider"></div>
+  <div class="gallery-filters">
+    <a href="{% url 'gallery' %}" class="gfilter {% if active_cat == 'all' %}active{% endif %}">All</a>
+    {% for cat_key, cat_label in categories %}
+    <a href="{% url 'gallery' %}?cat={{ cat_key }}" class="gfilter {% if active_cat == cat_key %}active{% endif %}">{{ cat_label }}</a>
+    {% endfor %}
+  </div>
+  <div class="gallery-grid">
+    {% for photo in photos %}
+    <div class="gallery-item">
+      <div class="gallery-item-inner">
+        <img src="{{ photo.image.url }}" alt="{{ photo.title }}" style="width:100%;height:100%;object-fit:cover;"/>
+      </div>
+      <div class="gallery-overlay">
+        <span>{{ photo.title }}</span>
+        <small>{{ photo.get_category_display }}{% if photo.year %} • {{ photo.year }}{% endif %}</small>
+      </div>
+    </div>
+    {% empty %}
+    <div style="grid-column:1/-1;text-align:center;padding:3rem;background:var(--dark2);border-radius:4px;">
+      <p style="color:var(--gray);font-size:1rem;">No photos yet.</p>
+      <p style="color:var(--gray);font-size:0.85rem;margin-top:0.5rem;">Upload photos from <strong style="color:var(--gold);">Admin → Gallery Photos</strong></p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

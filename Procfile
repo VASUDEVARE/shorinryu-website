@@ -1,0 +1,1 @@
+web: gunicorn shorinryu.wsgi --log-file -

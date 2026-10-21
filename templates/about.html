@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block title %}About{% endblock %}
+{% block content %}
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="{% url 'home' %}">Home</a><span class="sep">›</span><span class="current">About</span></div>
+    <h1>About <span>Our School</span></h1>
+    <p>Discover the history, philosophy, and people behind Shorin Ryu Karate Do India.</p>
+  </div>
+</div>
+<div class="section">
+  <div class="about-tabs">
+    <button class="tab-btn active" onclick="showTab('karate',this)">About Karate</button>
+    <button class="tab-btn" onclick="showTab('shorinryu',this)">Shorin Ryu</button>
+    <button class="tab-btn" onclick="showTab('wmka',this)">WMKA / SRKDI</button>
+    <button class="tab-btn" onclick="showTab('sensei',this)">Our Sensei</button>
+  </div>
+  <div class="tab-content active" id="tab-karate">
+    <div class="about-two-col">
+      <div class="about-text">
+        <p class="section-tag">The Art</p>
+        <h2 class="section-title">What is <span>Karate?</span></h2>
+        <div class="divider"></div>
+        <p>Karate (空手) — meaning "Empty Hand" — is a martial art developed in the Ryukyu Kingdom (present-day Okinawa, Japan). It emphasises striking techniques using punches, kicks, and open-hand moves, combined with deep philosophical principles.</p>
+        <div class="highlight-box"><p>"The ultimate aim of karate lies not in victory or defeat, but in the perfection of the character of its participants." — Gichin Funakoshi</p></div>
+        <div class="info-list">
+          <div class="info-item"><div class="info-dot"></div><p><strong>Kihon</strong> — Foundational techniques and stances practiced repeatedly for muscle memory</p></div>
+          <div class="info-item"><div class="info-dot"></div><p><strong>Kata</strong> — Pre-arranged sequences encoding traditional combat applications</p></div>
+          <div class="info-item"><div class="info-dot"></div><p><strong>Kumite</strong> — Sparring practice in dynamic, controlled combat scenarios</p></div>
+          <div class="info-item"><div class="info-dot"></div><p><strong>Kobudo</strong> — Traditional Okinawan weapons (bo, sai, nunchaku, tonfa, kama)</p></div>
+        </div>
+      </div>
+      <div class="about-img-placeholder" style="aspect-ratio:4/3;background:linear-gradient(135deg,var(--dark3),#1a0505);border-radius:4px;border:1px solid var(--dark3);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;">
+        <div class="ikon">🥋</div><span class="img-label">Add Image via Admin</span>
+      </div>
+    </div>
+  </div>
+  <div class="tab-content" id="tab-shorinryu">
+    <div class="about-two-col">
+      <div class="about-img-placeholder" style="aspect-ratio:4/3;background:linear-gradient(135deg,var(--dark3),#1a0505);border-radius:4px;border:1px solid var(--dark3);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;"><div class="ikon">⛩️</div><span class="img-label">Add Image via Admin</span></div>
+      <div class="about-text">
+        <p class="section-tag">Our Style</p>
+        <h2 class="section-title"><span>Shorin Ryu</span> Karate</h2>
+        <div class="divider"></div>
+        <p>Shorin-Ryu is one of the oldest and most traditional schools of Okinawan karate. The Matsubayashi-Ryu branch was founded in 1947 by O'Sensei Shoshin Nagamine, incorporating both Shuri-te and Tomari-te traditions.</p>
+        <div class="highlight-box"><p>Matsubayashi translates to "Pine Forest" — symbolising strength, flexibility, and endurance through all seasons.</p></div>
+        <div class="info-list">
+          <div class="info-item"><div class="info-dot"></div><p>18 Kata in the Matsubayashi-Ryu syllabus</p></div>
+          <div class="info-item"><div class="info-dot"></div><p>Kobudo weapons training integrated with empty-hand study</p></div>
+          <div class="info-item"><div class="info-dot"></div><p>Recognised by WKF for sports competition</p></div>
+          <div class="info-item"><div class="info-dot"></div><p>Practiced in over 30 countries worldwide</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tab-content" id="tab-wmka">
+    <div class="about-two-col">
+      <div class="about-text">
+        <p class="section-tag">Affiliations</p>
+        <h2 class="section-title">Global <span>Bodies</span></h2>
+        <div class="divider"></div>
+        <p>Our school is proud to be affiliated with the most respected Okinawan karate organisations, ensuring the highest standards of authenticity and excellence.</p>
+        <div class="about-orgs">
+          <div class="org-badge"><div><strong>WMKA</strong><span>Founded by O'Sensei Shoshin Nagamine. Currently led by Yoshitaka Taira, Hanshi, 10th Dan. Branches worldwide.</span></div></div>
+          <div class="org-badge"><div><strong>SRKDI</strong><span>A global collection of dojos sharing training practices and teaching insights across borders.</span></div></div>
+          <div class="org-badge"><div><strong>WKF</strong><span>Our sports karate programs follow WKF-standard rules. Our coaches hold official WKF licenses.</span></div></div>
+        </div>
+      </div>
+      <div class="about-img-placeholder" style="aspect-ratio:4/3;background:linear-gradient(135deg,var(--dark3),#1a0505);border-radius:4px;border:1px solid var(--dark3);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;"><div class="ikon">🌏</div><span class="img-label">Add Image via Admin</span></div>
+    </div>
+  </div>
+  <div class="tab-content" id="tab-sensei">
+    {% if chief_sensei %}
+    <div class="about-two-col">
+      <div class="sensei-card reveal">
+        <div class="sensei-header">
+          <div class="sensei-avatar">
+            {% if chief_sensei.photo %}<img src="{{ chief_sensei.photo.url }}" style="width:90px;height:90px;border-radius:50%;object-fit:cover;"/>{% else %}👤{% endif %}
+          </div>
+          <div class="sensei-meta">
+            <h3>{{ chief_sensei.name }}</h3>
+            <p>{{ chief_sensei.title }}</p>
+          </div>
+        </div>
+        <div class="sensei-body">
+          <div class="divider"></div>
+          <div>{{ chief_sensei.bio|safe }}</div>
+          <div class="cert-grid" style="margin-top:1.5rem;">
+            <div class="cert-item"><strong>Rank</strong><span>{{ chief_sensei.rank }}</span></div>
+            {% if chief_sensei.wkf_license %}<div class="cert-item"><strong>License</strong><span>WKF Licensed Coach</span></div>{% endif %}
+            {% if chief_sensei.ace_cert %}<div class="cert-item"><strong>Fitness</strong><span>ACE Certified</span></div>{% endif %}
+            <div class="cert-item"><strong>Experience</strong><span>{{ chief_sensei.years_exp }}+ Years</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="about-text">
+        <p class="section-tag">Training Philosophy</p>
+        <h2 class="section-title">The Sensei's <span>Vision</span></h2>
+        <div class="divider"></div>
+        {% if chief_sensei.quote %}<div class="highlight-box"><p>"{{ chief_sensei.quote }}"</p></div>{% endif %}
+      </div>
+    </div>
+    {% else %}
+    <div style="text-align:center;padding:3rem;background:var(--dark2);border-radius:4px;">
+      <p style="color:var(--gray);">Add Sensei profile from <strong style="color:var(--gold);">Admin → Instructors / Sensei</strong></p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

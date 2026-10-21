@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block title %}Contact Us{% endblock %}
+
+{% block content %}
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="breadcrumb">
+      <a href="{% url 'home' %}">Home</a><span class="sep">›</span>
+      <span class="current">Contact</span>
+    </div>
+    <h1>Contact <span>Us</span></h1>
+    <p>Have a question about our karate school? Ready to join a class? Send us a message and we will respond as soon as possible.</p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="contact-layout">
+    <div>
+      <div class="contact-info-card reveal">
+        <p class="section-tag">Get In Touch</p>
+        <h2 class="section-title" style="font-size:1.8rem;">We'd Love to <span>Hear From You</span></h2>
+        <div class="divider"></div>
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div><strong>Our Location</strong><p>{{ settings.address|linebreaksbr }}</p></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div><strong>Phone / WhatsApp</strong><a href="tel:{{ settings.phone }}">{{ settings.phone }}</a></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">✉️</div>
+          <div><strong>Email</strong><a href="mailto:{{ settings.email }}">{{ settings.email }}</a></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🕐</div>
+          <div>
+            <strong>Training Hours</strong>
+            <p>{{ settings.working_days }}<br/>
+            Morning: {{ settings.morning_hours }}<br/>
+            Evening: {{ settings.evening_hours }}</p>
+          </div>
+        </div>
+        {% if settings.whatsapp %}
+        <a class="whatsapp-btn" href="https://wa.me/{{ settings.whatsapp }}" target="_blank" rel="noopener">
+          <span>💬</span> Message Us on WhatsApp
+        </a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="contact-form reveal">
+      <p class="section-tag">Send a Message</p>
+      <h2 class="section-title" style="font-size:1.8rem;">Enquiry <span>Form</span></h2>
+      <div class="divider"></div>
+
+      <form method="POST" novalidate>
+        {% csrf_token %}
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            {{ form.first_name }}
+            {% if form.first_name.errors %}<p class="form-error">{{ form.first_name.errors.0 }}</p>{% endif %}
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            {{ form.last_name }}
+            {% if form.last_name.errors %}<p class="form-error">{{ form.last_name.errors.0 }}</p>{% endif %}
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          {{ form.email }}
+          {% if form.email.errors %}<p class="form-error">{{ form.email.errors.0 }}</p>{% endif %}
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          {{ form.phone }}
+        </div>
+        <div class="form-group">
+          <label>Interested In</label>
+          {{ form.program }}
+        </div>
+        <div class="form-group">
+          <label>Age Group</label>
+          {{ form.age_group }}
+        </div>
+        <div class="form-group">
+          <label>Your Message</label>
+          {{ form.message }}
+          {% if form.message.errors %}<p class="form-error">{{ form.message.errors.0 }}</p>{% endif %}
+        </div>
+        <button type="submit" class="btn btn-red" style="width:100%;">Send Message →</button>
+        <p style="font-size:0.75rem;color:var(--gray);margin-top:1rem;text-align:center;">
+          We typically respond within 24 hours.
+        </p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- MAP -->
+<div class="map-section">
+  <p class="section-tag">Find Us</p>
+  <h3 class="map-title">Our <span style="color:var(--gold);">Location</span></h3>
+  <div class="divider"></div>
+  <div class="map-container">
+    {% if settings.google_maps_embed %}
+      {{ settings.google_maps_embed|safe }}
+    {% else %}
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d60979.87!2d80.4071!3d15.5001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a4a63dc9408af93%3A0xf01fe2fa80d8ef4a!2sOngole%2C%20Andhra%20Pradesh!5e0!3m2!1sen!2sin!4v1698765432100"
+        allowfullscreen="" loading="lazy"></iframe>
+    {% endif %}
+  </div>
+  <p style="font-size:0.75rem;color:var(--gray);margin-top:0.8rem;">
+    💡 Update the map: Admin → Site Settings → Google Maps Embed — paste your iframe code there.
+  </p>
+</div>
+{% endblock %}

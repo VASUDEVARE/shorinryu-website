@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-kanji">空手道</div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span>Est. Okinawa Tradition &bull; India</span>
+    </div>
+    <h1 class="hero-title">
+      SHORIN RYU
+      <span class="line-red">KARATE</span>
+      <span class="line-gold">DO INDIA</span>
+    </h1>
+    <p class="hero-org">Okinawa Shorin Ryu &bull; Kobudo &bull; Multi Martial Arts</p>
+    <p class="hero-desc">
+      Traditional Okinawan Karate training for all age groups — from 4 years and above.
+      Sports Karate, Self Defence, Fitness, and authentic Kobudo weapons training.
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-red" href="{% url 'contact' %}">Join a Class</a>
+      <a class="btn btn-outline" href="{% url 'classes' %}">Explore Classes</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">15+</span><span class="stat-label">Years of Training</span></div>
+      <div class="stat"><span class="stat-num">500+</span><span class="stat-label">Students Trained</span></div>
+      <div class="stat"><span class="stat-num">4+</span><span class="stat-label">Dojo Locations</span></div>
+      <div class="stat"><span class="stat-num">WKF</span><span class="stat-label">Licensed Coaches</span></div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ABOUT STRIP -->
+<div class="home-about">
+  <div class="home-about-inner">
+    <div class="about-visual reveal">
+      <div class="about-img-placeholder">
+        <div class="ikon">🥋</div>
+        <span class="img-label">Upload via Admin → Gallery</span>
+      </div>
+      <div class="about-badge-box"><strong>1947</strong><span>Founded</span></div>
+    </div>
+    <div class="about-text reveal">
+      <p class="section-tag">About Our School</p>
+      <h2 class="section-title">The Way of <span>Shorin Ryu</span></h2>
+      <div class="divider"></div>
+      <p style="color:var(--light-gray);font-size:0.95rem;line-height:1.9;margin-bottom:1rem;">
+        A well-established and renowned Karate school offering genuine traditional Okinawan Karate to all members of the community. We train people of all ages, from busy adults to active kids.
+      </p>
+      <div class="about-orgs">
+        <div class="org-badge"><div><strong>WMKA</strong><span>World Matsubayashi-Ryu Karate-Do Association</span></div></div>
+        <div class="org-badge"><div><strong>SRKDI</strong><span>Shorin Ryu Karate-Do International</span></div></div>
+        <div class="org-badge"><div><strong>WKF</strong><span>World Karate Federation Licensed Coaching</span></div></div>
+      </div>
+      <br/>
+      <a class="btn btn-red" href="{% url 'about' %}">Learn More</a>
+    </div>
+  </div>
+</div>
+
+<!-- CLASSES PREVIEW -->
+<section class="section">
+  <p class="section-tag reveal">What We Offer</p>
+  <h2 class="section-title reveal">Our <span>Martial Arts</span> Programs</h2>
+  <div class="divider reveal"></div>
+  <div class="classes-grid">
+    {% for cls in classes %}
+    <a href="{% url 'classes' %}" class="class-card reveal" style="text-decoration:none;">
+      <div class="class-icon">{{ cls.icon_emoji }}</div>
+      <h3>{{ cls.name }}</h3>
+      <p>{{ cls.description|truncatewords:20 }}</p>
+      <span class="age-tag">{{ cls.age_group }}</span>
+    </a>
+    {% empty %}
+    <!-- Fallback if no classes added yet -->
+    <div class="class-card reveal"><div class="class-icon">🥋</div><h3>Traditional Karate</h3><p>Authentic Shorin Ryu training. Add classes in Admin panel.</p><span class="age-tag">All Ages</span></div>
+    <div class="class-card reveal"><div class="class-icon">🏆</div><h3>Sports Karate</h3><p>WKF-standard competitive training.</p><span class="age-tag">Competitive Athletes</span></div>
+    <div class="class-card reveal"><div class="class-icon">🛡️</div><h3>Self Defence</h3><p>Practical self-protection skills.</p><span class="age-tag">Teens & Adults</span></div>
+    <div class="class-card reveal"><div class="class-icon">💪</div><h3>Fitness</h3><p>Martial arts-based fitness classes.</p><span class="age-tag">All Fitness Levels</span></div>
+    {% endfor %}
+  </div>
+  <div style="text-align:center;margin-top:2.5rem;">
+    <a class="btn btn-outline" href="{% url 'classes' %}">View All Classes & Schedule</a>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<div class="testimonials-bg">
+  <div class="testimonials-inner">
+    <p class="section-tag">Student Reviews</p>
+    <h2 class="section-title">What Our <span>Students Say</span></h2>
+    <div class="divider"></div>
+    <div class="reviews-grid">
+      {% for t in testimonials %}
+      <div class="review-card reveal">
+        <div class="stars">{% for i in "12345" %}{% if forloop.counter <= t.stars %}★{% else %}☆{% endif %}{% endfor %}</div>
+        <p class="review-text">"{{ t.review }}"</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">{{ t.name.0 }}</div>
+          <div>
+            <div class="reviewer-name">{{ t.name }}</div>
+            <div class="reviewer-label">{{ t.label }}</div>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <!-- Fallback -->
+      <div class="review-card reveal"><div class="stars">★★★★★</div><p class="review-text">"Add your reviews from Admin → Testimonials."</p><div class="reviewer"><div class="reviewer-avatar">S</div><div><div class="reviewer-name">Student Name</div><div class="reviewer-label">Add via Admin Panel</div></div></div></div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

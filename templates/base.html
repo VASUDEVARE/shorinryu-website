@@ -1,0 +1,123 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>{% block title %}Shorin Ryu Karate Do India{% endblock %} | Traditional & Sports Karate</title>
+<meta name="description" content="{% block meta_desc %}Authentic Okinawan Shorin Ryu Karate training in India. Traditional Karate, Sports Karate, Self Defence, Fitness — all age groups from 4 years.{% endblock %}"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cinzel:wght@400;700;900&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="{% static 'css/main.css' %}"/>
+{% block extra_head %}{% endblock %}
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="{% url 'home' %}" class="nav-logo">
+      <span>{{ settings.site_name }}</span>
+      <span>{{ settings.tagline }}</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="{% url 'home' %}"        class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a></li>
+      <li><a href="{% url 'about' %}"       class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">About</a></li>
+      <li><a href="{% url 'instructors' %}" class="{% if request.resolver_match.url_name == 'instructors' %}active{% endif %}">Instructors</a></li>
+      <li><a href="{% url 'classes' %}"     class="{% if request.resolver_match.url_name == 'classes' %}active{% endif %}">Classes</a></li>
+      <li><a href="{% url 'gallery' %}"     class="{% if request.resolver_match.url_name == 'gallery' %}active{% endif %}">Gallery</a></li>
+      <li><a href="{% url 'blogs' %}"       class="{% if request.resolver_match.url_name == 'blogs' or request.resolver_match.url_name == 'blog_detail' %}active{% endif %}">Blogs</a></li>
+      <li><a href="{% url 'contact' %}"     class="nav-cta {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">Contact Us</a></li>
+    </ul>
+    <div class="hamburger" onclick="toggleMenu()" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'about' %}">About</a>
+    <a href="{% url 'instructors' %}">Instructors</a>
+    <a href="{% url 'classes' %}">Classes</a>
+    <a href="{% url 'gallery' %}">Gallery</a>
+    <a href="{% url 'blogs' %}">Blogs</a>
+    <a href="{% url 'contact' %}">Contact Us</a>
+  </div>
+</nav>
+
+<!-- ===== DJANGO MESSAGES (success/error notifications) ===== -->
+{% if messages %}
+<div class="django-messages">
+  {% for message in messages %}
+  <div class="django-msg django-msg-{{ message.tags }}">
+    {{ message }}
+    <span class="msg-close" onclick="this.parentElement.remove()">✕</span>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<!-- ===== PAGE CONTENT ===== -->
+<main>
+  {% block content %}{% endblock %}
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo-text">{{ settings.site_name }}</div>
+      <div class="footer-tagline">{{ settings.tagline }}</div>
+      <p class="footer-desc">
+        Authentic Okinawan Shorin Ryu Karate training. Affiliated with WMKA and SRKDI.
+        WKF-licensed coaching for all age groups from 4 years and above.
+      </p>
+      <div class="social-links">
+        {% if settings.facebook  %}<a class="social-link" href="{{ settings.facebook }}"  target="_blank" rel="noopener" title="Facebook">f</a>{% endif %}
+        {% if settings.instagram %}<a class="social-link" href="{{ settings.instagram }}" target="_blank" rel="noopener" title="Instagram">in</a>{% endif %}
+        {% if settings.youtube   %}<a class="social-link" href="{{ settings.youtube }}"   target="_blank" rel="noopener" title="YouTube">▶</a>{% endif %}
+        {% if settings.whatsapp  %}<a class="social-link" href="https://wa.me/{{ settings.whatsapp }}" target="_blank" rel="noopener" title="WhatsApp">W</a>{% endif %}
+        {% if settings.twitter   %}<a class="social-link" href="{{ settings.twitter }}"   target="_blank" rel="noopener" title="Twitter/X">𝕏</a>{% endif %}
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <a href="{% url 'home' %}">Home</a>
+      <a href="{% url 'about' %}">About Us</a>
+      <a href="{% url 'instructors' %}">Instructors</a>
+      <a href="{% url 'classes' %}">Karate Classes</a>
+      <a href="{% url 'gallery' %}">Gallery</a>
+      <a href="{% url 'blogs' %}">Blogs</a>
+      <a href="{% url 'contact' %}">Contact Us</a>
+    </div>
+    <div class="footer-col">
+      <h4>Programs</h4>
+      <a href="{% url 'classes' %}">Traditional Karate</a>
+      <a href="{% url 'classes' %}">Sports Karate</a>
+      <a href="{% url 'classes' %}">Self Defence</a>
+      <a href="{% url 'classes' %}">Kids Karate</a>
+      <a href="{% url 'classes' %}">Fitness Training</a>
+      <a href="{% url 'classes' %}">Kobudo Weapons</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      {% if settings.address %}<a>📍 {{ settings.address }}</a>{% endif %}
+      {% if settings.phone   %}<a href="tel:{{ settings.phone }}">📞 {{ settings.phone }}</a>{% endif %}
+      {% if settings.email   %}<a href="mailto:{{ settings.email }}">✉️ {{ settings.email }}</a>{% endif %}
+      <br/>
+      <p style="font-size:0.75rem;color:var(--gray);">
+        {{ settings.working_days }}<br/>
+        Morning: {{ settings.morning_hours }}<br/>
+        Evening: {{ settings.evening_hours }}
+      </p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© {% now "Y" %} {{ settings.site_name }}. All Rights Reserved.</p>
+    <p>Built with <span>♥</span> for the Martial Arts Community</p>
+  </div>
+</footer>
+
+<script src="{% static 'js/main.js' %}"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

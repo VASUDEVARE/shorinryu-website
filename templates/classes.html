@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Karate Classes{% endblock %}
+{% block content %}
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="{% url 'home' %}">Home</a><span class="sep">›</span><span class="current">Classes</span></div>
+    <h1>Karate <span>Classes</span></h1>
+    <p>Discover the right program for your age, goal, and experience level.</p>
+  </div>
+</div>
+<div class="section">
+  {% for cls in classes %}
+  <div class="class-detail-card reveal">
+    <div class="class-detail-info">
+      <div class="cd-tag">{{ cls.icon_emoji }} {{ cls.get_class_type_display }}</div>
+      <h2>{{ cls.name }}</h2>
+      <p>{{ cls.description }}</p>
+      <div class="class-meta-grid">
+        <div class="class-meta-item"><strong>Age Group</strong><span>{{ cls.age_group }}</span></div>
+        <div class="class-meta-item"><strong>Level</strong><span>{{ cls.level }}</span></div>
+        <div class="class-meta-item"><strong>Duration</strong><span>{{ cls.duration }}</span></div>
+        {% if cls.standard %}<div class="class-meta-item"><strong>Standard</strong><span>{{ cls.standard }}</span></div>{% endif %}
+      </div>
+      <br/><a class="btn btn-red" href="{% url 'contact' %}">Enquire Now</a>
+    </div>
+    <div class="class-detail-visual">{{ cls.icon_emoji }}</div>
+  </div>
+  {% empty %}
+  <div style="text-align:center;padding:3rem;background:var(--dark2);border-radius:4px;">
+    <p style="color:var(--gray);">Add classes from <strong style="color:var(--gold);">Admin → Karate Classes</strong></p>
+  </div>
+  {% endfor %}
+
+  {% if classes %}
+  <div style="margin-top:3rem;" class="reveal">
+    <p class="section-tag">Timetable</p>
+    <h2 class="section-title">Class <span>Schedule</span></h2>
+    <div class="divider"></div>
+    <div style="overflow-x:auto;">
+      <table class="schedule-table">
+        <thead><tr><th>Class</th><th>Days</th><th>Morning</th><th>Evening</th><th>Age Group</th><th>Status</th></tr></thead>
+        <tbody>
+          {% for cls in classes %}
+          {% for sched in cls.schedules.all %}
+          <tr>
+            <td><strong>{{ cls.name }}</strong></td>
+            <td>{{ sched.get_days_display }}</td>
+            <td>{{ sched.morning_time|default:"—" }}</td>
+            <td>{{ sched.evening_time|default:"—" }}</td>
+            <td>{{ cls.age_group }}</td>
+            <td>
+              {% if cls.status == 'open' %}<span class="badge-pill badge-green">Open</span>
+              {% elif cls.status == 'limited' %}<span class="badge-pill badge-blue">Limited Seats</span>
+              {% elif cls.status == 'full' %}<span class="badge-pill badge-red">Full</span>
+              {% else %}<span class="badge-pill badge-gold">Enquire</span>{% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

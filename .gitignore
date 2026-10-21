@@ -1,0 +1,28 @@
+# Virtual Environment
+venv/
+
+# Environment variables - NEVER upload this
+.env
+
+# Database - stays on server
+db.sqlite3
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Media uploads (photos you upload via admin)
+media/
+
+# Static files collected
+staticfiles/
+
+# VS Code settings
+.vscode/
+
+# Windows files
+Thumbs.db
+desktop.ini
